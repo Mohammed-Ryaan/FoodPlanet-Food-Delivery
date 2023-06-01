@@ -5,10 +5,10 @@ import {
   PasswordIcon,
   GoogleIcon,
 } from "../assets/index";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginInput from "./LoginInput";
 import { motion } from "framer-motion";
-import { buttonClick } from "../animations";
+import { buttonClick, fadeInOut } from "../animations";
 import {
   getAuth,
   signInWithPopup,
@@ -18,18 +18,37 @@ import {
 } from "firebase/auth";
 import { app } from "../config/firebase.config";
 import { validateUserJWTToken } from "../api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { addUser } from "../utils/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import MainLoader from "./MainLoader";
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const user = useSelector((store) => store.user.userDetails);
+
+  useEffect(() => {
+    if (user) {
+      //If user exists then don't go to login page instead redirect to home page
+      // navigate("/", { replace: true });
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+    }
+  }, []);
 
   const logInWithGoogle = async () => {
     await signInWithPopup(firebaseAuth, provider).then((userCred) => {
@@ -38,7 +57,8 @@ const Login = () => {
           // console.log(cred);
           cred.getIdToken().then((token) => {
             validateUserJWTToken(token).then((data) => {
-              console.log(data);
+              dispatch(addUser(data));
+              //console.log(data);
             });
             // Go back to home page after sign in
             navigate("/", { replace: true });
@@ -66,7 +86,8 @@ const Login = () => {
               // console.log(cred);
               cred.getIdToken().then((token) => {
                 validateUserJWTToken(token).then((data) => {
-                  console.log(data);
+                  dispatch(addUser(data));
+                  //console.log(data);
                 });
                 // Go back to home page after sign up
                 navigate("/", { replace: true });
@@ -93,6 +114,7 @@ const Login = () => {
               // console.log(cred);
               cred.getIdToken().then((token) => {
                 validateUserJWTToken(token).then((data) => {
+                  //dispatch(addUser(data));
                   console.log(data);
                 });
                 // Go back to home page after sign in
@@ -105,7 +127,14 @@ const Login = () => {
     }
   };
 
-  return (
+  return isLoading === true ? (
+    <motion.div
+      {...fadeInOut}
+      className="fixed z-50 inset-0 bg-primary backdrop-blur-md flex items-center justify-center w-full"
+    >
+      <MainLoader />
+    </motion.div>
+  ) : (
     <div className="w-screen h-screen relative overflow-hidden flex">
       {/* Background Image */}
       <img
@@ -117,12 +146,14 @@ const Login = () => {
       {/* Content Box */}
       <div className="flex flex-col items-center bg-cardOverlay w-[80%] md:w-508 h-full z-10 backdrop-blur-md p-4 px-4 py-12 gap-6 no-scrollbar overflow-y-auto">
         {/* Top Logo Section */}
-        <div className="flex items-center gap-3 justify-start w-full">
-          <img src={AppLogo} className="w-10 h-10" alt="res-logo" />
-          <p className="font-semibold text-2xl text-headingColor">
-            Food Planet
-          </p>
-        </div>
+        <Link to="/">
+          <div className="flex items-center gap-3 justify-start w-full">
+            <img src={AppLogo} className="w-10 h-10" alt="res-logo" />
+            <p className="font-semibold text-2xl text-headingColor">
+              Food Planet
+            </p>
+          </div>
+        </Link>
 
         {/* Welcome text */}
         <p className="text-3xl font-semibold">Welcome Back</p>
