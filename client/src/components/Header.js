@@ -11,6 +11,7 @@ import { slideTop } from "../animations";
 import { getAuth } from "firebase/auth";
 import { app } from "../config/firebase.config";
 import { removeUser } from "../utils/userSlice";
+import { showAlert } from "../utils/alertSlice";
 
 const Header = () => {
   const user = useSelector((store) => store.user.userDetails);
@@ -19,6 +20,8 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const cart = useSelector((store) => store.cart);
+
   const handleSignOut = () => {
     const firebaseAuth = getAuth(app);
 
@@ -26,6 +29,17 @@ const Header = () => {
       .signOut()
       .then(() => {
         dispatch(removeUser());
+        dispatch(
+          showAlert({ type: "success", message: "Logged out successfully" })
+        );
+        setTimeout(() => {
+          dispatch(
+            showAlert({
+              type: "",
+              message: "",
+            })
+          );
+        }, 5000);
         navigate("/login", { replace: true });
       })
       .catch((err) => console.log(err));
@@ -50,20 +64,12 @@ const Header = () => {
             Home
           </NavLink>
           <NavLink
-            to="/menu"
+            to="/order"
             className={({ isActive }) => {
               return isActive ? isActiveStyles : isNotActiveStyles;
             }}
           >
-            Menu
-          </NavLink>
-          <NavLink
-            to="/services"
-            className={({ isActive }) => {
-              return isActive ? isActiveStyles : isNotActiveStyles;
-            }}
-          >
-            Services
+            Order
           </NavLink>
           <NavLink
             to="/aboutUs"
@@ -76,14 +82,20 @@ const Header = () => {
         </ul>
 
         {/* Cart */}
-        <motion.div {...buttonClick}>
-          <p className="text-3xl text-textColor relative cursor-pointer">
-            &#128722;
-          </p>
-          <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center absolute -mt-[50px] ml-[20px]">
-            <p className="text-primary text-base font-semibold">2</p>
-          </div>
-        </motion.div>
+        <Link to="/checkout">
+          <motion.div {...buttonClick}>
+            <p className="text-3xl text-textColor relative cursor-pointer">
+              &#128722;
+            </p>
+            {cart.quantity > 0 && (
+              <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center absolute -mt-[50px] ml-[20px]">
+                <p className="text-primary text-base font-semibold">
+                  {cart.quantity}
+                </p>
+              </div>
+            )}
+          </motion.div>
+        </Link>
 
         {/* Is User has signed In then */}
         {user?.user_id ? (
@@ -113,31 +125,18 @@ flex flex-col gap-4 -ml-[44px]"
                   {...slideTop}
                 >
                   <Link
-                    className="hover:text-red-500 text-xl text-textColor"
+                    className="hover:text-red-500 text-xl text-textColor my-2"
                     to={"/dashboard"}
                   >
                     Dashboard
-                  </Link>
-                  <Link
-                    className="hover:text-red-500 text-xl text-textColor"
-                    to={"/profile"}
-                  >
-                    My Profile
-                  </Link>
-                  <Link
-                    className="hover:text-red-500 text-xl text-textColor"
-                    to={"/user-orders"}
-                  >
-                    Orders
                   </Link>
 
                   <hr />
 
                   <motion.div
                     {...buttonClick}
-                    className="group flex items-center justify-center px-3 py-2 rounded-md shadow-md bg-gray-100hover: bg-gray-200 gap-3 hover:bg-slate-400"
+                    className="group flex items-center justify-center px-3 py-2 rounded-md shadow-md bg-gray-100hover: bg-gray-200 gap-3 hover:bg-slate-400 cursor-pointer"
                   >
-                    {/* <MdLogout className="text-2xl text-textColor group-hover::text-headingColor" /> */}
                     <p
                       className="text-textColor text-lg group-hover:text-white"
                       onClick={handleSignOut}

@@ -23,6 +23,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { addUser } from "../utils/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import MainLoader from "./MainLoader";
+import Alert from "./Alert";
+import { showAlert } from "../utils/alertSlice";
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -39,6 +41,8 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.user.userDetails);
+
+  const alert = useSelector((store) => store.alert);
 
   useEffect(() => {
     if (user) {
@@ -61,9 +65,40 @@ const Login = () => {
               //console.log(data);
             });
             // Go back to home page after sign in
+
+            //Show alert
+            dispatch(
+              showAlert({
+                type: "success",
+                message: "Google Sign In Successful",
+              })
+            );
+
+            setTimeout(() => {
+              dispatch(
+                showAlert({
+                  type: "",
+                  message: "",
+                })
+              );
+            }, 3000);
+
+            //Get cart details of user
+
             navigate("/", { replace: true });
           });
         }
+        dispatch(
+          showAlert({ type: "danger", message: "Google Sign In Unsuccessful" })
+        );
+        setTimeout(() => {
+          dispatch(
+            showAlert({
+              type: "",
+              message: "",
+            })
+          );
+        }, 3000);
       });
     });
   };
@@ -71,6 +106,20 @@ const Login = () => {
   const signUpWithEmailAndPassword = async () => {
     if (userEmail === "" || password === "" || confirmPassword === "") {
       //display alert message
+      dispatch(
+        showAlert({
+          type: "warning",
+          message: "All fields need to be filled",
+        })
+      );
+      setTimeout(() => {
+        dispatch(
+          showAlert({
+            type: "",
+            message: "",
+          })
+        );
+      }, 3000);
     } else {
       if (password === confirmPassword) {
         await createUserWithEmailAndPassword(
@@ -90,6 +139,21 @@ const Login = () => {
                   //console.log(data);
                 });
                 // Go back to home page after sign up
+                dispatch(
+                  showAlert({
+                    type: "success",
+                    message: "Sign Up was Successful",
+                  })
+                );
+                setTimeout(() => {
+                  dispatch(
+                    showAlert({
+                      type: "",
+                      message: "",
+                    })
+                  );
+                }, 3000);
+
                 navigate("/", { replace: true });
               });
             }
@@ -97,13 +161,34 @@ const Login = () => {
         });
       } else {
         //display alert message
+        dispatch(
+          showAlert({ type: "danger", message: "Passwords do not match!" })
+        );
+        setTimeout(() => {
+          dispatch(
+            showAlert({
+              type: "",
+              message: "",
+            })
+          );
+        }, 3000);
       }
     }
   };
 
   const signInWithEmailAndPass = async () => {
     if (userEmail === "" || password === "") {
-      //display alert message
+      dispatch(
+        showAlert({ type: "warning", message: "All fields need to be filled" })
+      );
+      setTimeout(() => {
+        dispatch(
+          showAlert({
+            type: "",
+            message: "",
+          })
+        );
+      }, 3000);
     } else {
       await signInWithEmailAndPassword(firebaseAuth, userEmail, password).then(
         (userCred) => {
@@ -115,15 +200,58 @@ const Login = () => {
               cred.getIdToken().then((token) => {
                 validateUserJWTToken(token).then((data) => {
                   //dispatch(addUser(data));
-                  console.log(data);
+                  //console.log(data);
                 });
                 // Go back to home page after sign in
+
+                dispatch(
+                  showAlert({
+                    type: "success",
+                    message: "Sign In was successful",
+                  })
+                );
+                setTimeout(() => {
+                  dispatch(
+                    showAlert({
+                      type: "",
+                      message: "",
+                    })
+                  );
+                }, 3000);
                 navigate("/", { replace: true });
               });
             }
+            dispatch(
+              showAlert({
+                type: "danger",
+                message: "Sign In was not Successful",
+              })
+            );
+            setTimeout(() => {
+              dispatch(
+                showAlert({
+                  type: "",
+                  message: "",
+                })
+              );
+            }, 3000);
           });
         }
       );
+      dispatch(
+        showAlert({
+          type: "danger",
+          message: "Sign In was not Successful",
+        })
+      );
+      setTimeout(() => {
+        dispatch(
+          showAlert({
+            type: "",
+            message: "",
+          })
+        );
+      }, 3000);
     }
   };
 
@@ -142,7 +270,6 @@ const Login = () => {
         src={LoginBg}
         alt="loginBg"
       />
-
       {/* Content Box */}
       <div className="flex flex-col items-center bg-cardOverlay w-[80%] md:w-508 h-full z-10 backdrop-blur-md p-4 px-4 py-12 gap-6 no-scrollbar overflow-y-auto">
         {/* Top Logo Section */}
@@ -265,6 +392,7 @@ const Login = () => {
           </p>
         </motion.div>
       </div>
+      <Alert type={alert.type} message={alert.message} />;
     </div>
   );
 };

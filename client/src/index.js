@@ -6,15 +6,19 @@ import MainContainer from "./components/MainContainer";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { AnimatePresence } from "framer-motion";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import store from "./utils/store";
 import Dashboard from "./components/Dashboard";
 import DBHome from "./components/DBHome";
-import DBAddNewItem from "./components/DBAddNewItem";
-import DBItems from "./components/DBItems";
-import DBNewItems from "./components/DBNewItems";
 import DBOrders from "./components/DBOrders";
-import DBUsers from "./components/DBUsers";
+import DBProfile from "./components/DBProfile";
+import Order from "./components/Order";
+import Error from "./components/Error";
+import RestaurantMenu from "./components/RestaurantMenu";
+import Home from "./components/Home";
+import Cart from "./components/Cart";
+import CheckOutSuccess from "./components/CheckOutSuccess";
+import AboutUs from "./components/AboutUs";
 
 const appRouter = createBrowserRouter([
   {
@@ -24,12 +28,42 @@ const appRouter = createBrowserRouter([
       {
         path: "/",
         element: <MainContainer />,
+        children: [
+          {
+            path: "order",
+            element: <Order />,
+          },
+          {
+            path: "/",
+            element: <Home />,
+          },
+          {
+            path: "restaurant/:id",
+            element: <RestaurantMenu />,
+          },
+          {
+            path: "checkout",
+            element: <Cart />,
+          },
+          {
+            path: "aboutUs",
+            element: <AboutUs />,
+          },
+        ],
       },
     ],
+
+    errorElement: <Error />,
   },
   {
     path: "login",
     element: <Login />,
+    errorElement: <Error />,
+  },
+  {
+    path: "checkOutSuccess",
+    element: <CheckOutSuccess />,
+    errorElement: <Error />,
   },
   {
     path: "dashboard/*",
@@ -43,23 +77,13 @@ const appRouter = createBrowserRouter([
         path: "orders",
         element: <DBOrders />,
       },
+
       {
-        path: "newItem",
-        element: <DBNewItems />,
-      },
-      {
-        path: "addNewItem",
-        element: <DBAddNewItem />,
-      },
-      {
-        path: "items",
-        element: <DBItems />,
-      },
-      {
-        path: "users",
-        element: <DBUsers />,
+        path: "profile",
+        element: <DBProfile />,
       },
     ],
+    errorElement: <Error />,
   },
 ]);
 

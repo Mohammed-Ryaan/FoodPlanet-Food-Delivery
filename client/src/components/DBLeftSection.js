@@ -1,10 +1,42 @@
 import { NavLink } from "react-router-dom";
 import { AppLogo } from "../assets";
 import { isActiveStyles, isNotActiveStyles } from "../utils/styles";
+import { getAuth } from "firebase/auth";
+import { app } from "../config/firebase.config";
+import { useDispatch } from "react-redux";
+import { showAlert } from "../utils/alertSlice";
+import { buttonClick } from "../animations";
+import { motion } from "framer-motion";
+import { removeUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const DBLeftSection = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    const firebaseAuth = getAuth(app);
+
+    firebaseAuth
+      .signOut()
+      .then(() => {
+        dispatch(removeUser());
+        dispatch(
+          showAlert({ type: "success", message: "Logged out successfully" })
+        );
+        setTimeout(() => {
+          dispatch(
+            showAlert({
+              type: "",
+              message: "",
+            })
+          );
+        }, 5000);
+        navigate("/login", { replace: true });
+      })
+      .catch((err) => console.log(err));
+  };
   return (
-    <div className="h-full py-12 flex flex-col bg-lightOverlay backdrop-blur-md shadow-md min-w-210 w-300 gap-3">
+    <div className="h-full py-12 px-4 flex flex-col bg-lightOverlay backdrop-blur-md shadow-md min-w-210 w-300 gap-3">
       <NavLink to="/" className="flex items-center justify-start px-6 gap-4">
         <img src={AppLogo} className="w-10 h-10" alt="res-logo" />
         <p className="font-semibold text-2xl text-headingColor">Food Planet</p>
@@ -24,6 +56,16 @@ const DBLeftSection = () => {
           Home
         </NavLink>
         <NavLink
+          to="/dashboard/profile"
+          className={({ isActive }) => {
+            return isActive
+              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500`
+              : isNotActiveStyles;
+          }}
+        >
+          Your Profile
+        </NavLink>
+        <NavLink
           to="/dashboard/orders"
           className={({ isActive }) => {
             return isActive
@@ -33,46 +75,17 @@ const DBLeftSection = () => {
         >
           Orders
         </NavLink>
-        <NavLink
-          to="/dashboard/items"
-          className={({ isActive }) => {
-            return isActive
-              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500`
-              : isNotActiveStyles;
-          }}
+        <motion.div
+          {...buttonClick}
+          className=" w-3/4 group flex items-center justify-center px-3 py-2 mt-6 rounded-md shadow-md bg-slate-200  gap-3 hover:bg-slate-400 cursor-pointer"
         >
-          Items
-        </NavLink>
-        <NavLink
-          to="/dashboard/newItem"
-          className={({ isActive }) => {
-            return isActive
-              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500`
-              : isNotActiveStyles;
-          }}
-        >
-          New Items
-        </NavLink>
-        <NavLink
-          to="/dashboard/addNewItem"
-          className={({ isActive }) => {
-            return isActive
-              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500`
-              : isNotActiveStyles;
-          }}
-        >
-          Add New Item
-        </NavLink>
-        <NavLink
-          to="/dashboard/users"
-          className={({ isActive }) => {
-            return isActive
-              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500`
-              : isNotActiveStyles;
-          }}
-        >
-          Users
-        </NavLink>
+          <p
+            className="text-textColor text-lg group-hover:text-white"
+            onClick={handleSignOut}
+          >
+            Sign Out
+          </p>
+        </motion.div>
       </ul>
 
       {/* Help centre box */}
@@ -90,16 +103,18 @@ items-center justify-center"
           >
             <p className="text-2xl font-bold text-red-500">?</p>
           </div>
-          <p className="text-xl text-primary font-semibold">Help Center</p>
+          <p className="text-xl text-primary font-semibold">Connect With Me!</p>
           <p className="text-base text-gray-300 text-center">
-            Having trouble in city. Please contact us for more questions
+            Have any suggestions? Feel free to contact me!
           </p>
-          <p
-            className="px-4 py-2 rounded-full bg-primary text-red-400
+          <a href="" target="_blank">
+            <p
+              className="px-4 py-2 rounded-full bg-primary text-red-400
 cursor-pointer"
-          >
-            Get in touch
-          </p>
+            >
+              Get in touch
+            </p>
+          </a>
         </div>
       </div>
     </div>

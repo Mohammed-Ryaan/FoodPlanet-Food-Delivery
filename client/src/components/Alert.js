@@ -3,6 +3,10 @@ import { motion } from "framer-motion";
 import { fadeInOut } from "../animations";
 
 const Alert = ({ type, message }) => {
+  // console.log(alert);
+  // const type = alert?.type;
+  // const message = alert?.message;
+  //console.log(type + " " + message);
   if (type === "success") {
     return (
       <motion.div

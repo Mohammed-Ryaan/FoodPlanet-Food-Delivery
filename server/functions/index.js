@@ -33,4 +33,10 @@ app.get("/", (req, res) => {
 const userRoute = require("./routes/user.js");
 app.use("/api/users", userRoute);
 
+// const productRoute = require("./routes/product.js");
+// app.use("/api/", productRoute);
+
+const cartRoute = require("./routes/cart");
+app.use("/api/cart", cartRoute);
+
 exports.app = functions.https.onRequest(app);
