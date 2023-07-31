@@ -44,7 +44,7 @@ const DBLeftSection = () => {
       <hr />
 
       <ul className="flex flex-col gap-4">
-        <NavLink
+        {/* <NavLink
           to="/dashboard/home"
           className={({ isActive }) => {
             return isActive
@@ -54,7 +54,7 @@ const DBLeftSection = () => {
           }}
         >
           Home
-        </NavLink>
+        </NavLink> */}
         <NavLink
           to="/dashboard/profile"
           className={({ isActive }) => {

@@ -20,7 +20,7 @@ const CheckOutSuccess = () => {
             to={"/"}
             className="flex items-center justify-center gap-4 cursor-pointer text-2xl text-textColor font-semibold px-4 py-2 rounded-md border border-gray-300 hover: shadow-md"
           >
-            <button className="text-3xl text-textColor">Go back to Home</button>
+            <button className="text-3xl text-textColor">Back to Home</button>
           </NavLink>
         </motion.div>
       </div>

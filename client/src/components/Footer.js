@@ -13,36 +13,11 @@ const Footer = () => {
             <p>Made With</p>
             <span className="text-primary text-[35px] px-2">&#9825;</span>
           </div>
-          <p className="pl-2">- Mohammed Ryaan</p>
-        </div>
-        <div className="flex items-start justify-start ">
           <a
             href="https://www.linkedin.com/in/mohammed-ryaan-0168891b8?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BnvGaEOVvTQWzMxR%2Bra8gCg%3D%3D"
-            className="px-4 border-r border-r-primary"
             target="_blank"
           >
-            <p className="text-black text-[40px]">&#9825;</p>
-          </a>
-          <a
-            href="https://github.com/Mohammed-Ryaan"
-            className="px-4 border-r border-r-primary"
-            target="_blank"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="white"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.207 11.387.6.11.793-.258.793-.574 0-.283-.012-1.03-.015-2.023-3.344.724-4.043-1.61-4.043-1.61-.547-1.39-1.336-1.76-1.336-1.76-1.09-.745.084-.73.084-.73 1.207.086 1.84 1.238 1.84 1.238 1.07 1.835 2.805 1.305 3.487.997.108-.77.418-1.305.76-1.605-2.665-.303-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.534-1.523.104-3.176 0 0 1.007-.322 3.3 1.23.955-.27 1.98-.405 3-.41 1.02.004 2.045.14 3 .41 2.29-1.552 3.295-1.23 3.295-1.23.64 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.368.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .31.192.688.795.57C20.565 21.793 24 17.3 24 12c0-6.63-5.37-12-12-12zm0 0"></path>
-            </svg>
-          </a>
-          <a
-            href="https://instagram.com/mohammedryaan20"
-            className="px-4 border-r border-r-primary"
-            target="_blank"
-          >
-            &#129293;
+            <p className="pl-2">- Mohammed Ryaan</p>
           </a>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { searchRestaurant } from "../utils/helper";
 import { getCart } from "../api";
 import { setCart } from "../utils/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
+import restList from "../utils/restaurantData";
 
 const Order = () => {
   //Using useState Hook
@@ -20,8 +21,15 @@ const Order = () => {
     const json = await data.json();
     //console.log(json);
     //Optional chaining to prevent errors in case not found
-    setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards); //Contains data that we need
-    setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards); //Contains data that we need
+    let allRes = json?.data?.cards[2]?.data?.data?.cards;
+    if (allRes === undefined) {
+      allRes = restList;
+      setFilteredRestaurants(restList); //Contains data that we need
+      setAllRestaurants(restList); //Contains data that we need
+    } else {
+      setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards); //Contains data that we need
+      setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards); //Contains data that we need
+    }
   }
 
   const user = useSelector((store) => store.user.userDetails);

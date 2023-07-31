@@ -17,7 +17,9 @@ import { getCart, addToCart, removeFromCart } from "../api";
 const FoodItemCard = ({ item, resId }) => {
   //Destructuring things that we need from resData
   //console.log(item);
-  const { imageId, name, description, price, id, inStock } = item;
+  const { imageId, name, description, price, id } = item;
+  item.inStock = 1;
+  console.log(item.inStock);
   const [showDescription, setShowDescription] = useState(false);
 
   //If item quantity is zero then we show add item, otherwise we show plus minus buttons

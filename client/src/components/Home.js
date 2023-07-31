@@ -63,10 +63,13 @@ const Home = () => {
                 <span className="text-red-600">Bengaluru</span>
               </p>
               <p className="text-textColor text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod
-                ipsam doloribus et similique distinctio, rem deleniti ipsa,
-                nesciunt vitae labore voluptates sunt ducimus mollitia id
-                libero! Nostrum expedita libero recusandae?{" "}
+                From the moment users access the app, they are greeted with a
+                visually stunning and intuitive interface that guarantees
+                effortless navigation. Our app boasts a vast and diverse
+                selection of restaurants and cuisines, ensuring that every
+                craving is met with an array of delightful options. Our App is
+                the go-to platform for food enthusiasts, setting new industry
+                standards and continuously delighting customers with each order.{" "}
               </p>
               <Link to="/order">
                 <motion.button

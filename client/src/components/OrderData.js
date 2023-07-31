@@ -41,16 +41,16 @@ drop-shadow-md"
             {order?.status}
           </p>
           <p
-            className={`text-base font-semibold capitalize border
-border-gray-300 px-2 py-[2px] rounded-md ${
-              (order?.sts === "preparing" && "text-orange-500 bg-orange-100") ||
-              (order?.sts === "cancelled" && "text-red-500 bg-red-100") ||
-              (order?.sts === "delivered" && "text-emerald-500 bg-emerald-100")
-            }`}
+            className={
+              "text-base font-semibold capitalize bordeborder-gray-300 px-2 py-[2px] rounded-md text-emerald-500 bg-emerald-100"
+              // (order?.sts === "preparing" && "text-orange-500 bg-orange-100") ||
+              // (order?.sts === "cancelled" && "text-red-500 bg-red-100") ||
+              // (order?.sts === "delivered" && "text-emerald-500 bg-emerald-100")
+            }
           >
-            {order?.sts}
+            Delivered
           </p>
-          <div className="flex items-center justify-center gap-2">
+          {/* <div className="flex items-center justify-center gap-2">
             <p className="text-lg font-semibold text-headingColor">Mark As</p>
             <motion.p
               {...buttonClick}
@@ -79,7 +79,7 @@ cursor-pointer"
             >
               Delivered
             </motion.p>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex flex-col items-start justify-start flex-wrap w-full">

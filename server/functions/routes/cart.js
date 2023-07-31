@@ -107,7 +107,7 @@ router.post("/addToCart/:userId", async (req, res) => {
       let restaurantId = existingCart.restaurantId;
       let total = existingCart.total;
 
-      if (newRestaurantId != restaurantId) {
+      if (newRestaurantId !== restaurantId) {
         const deleteCart = await db
           .collection("users")
           .doc(userId)
@@ -281,6 +281,8 @@ router.post("/removeFromCart/:userId", async (req, res) => {
     return res.status(200).send({ success: false, message: `Error : ${err}` });
   }
 });
+
+// STRIPE API
 
 router.post("/create-checkout-session", async (req, res) => {
   const cart = req.body.cart;

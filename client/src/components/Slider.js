@@ -7,6 +7,7 @@ import { Chicken } from "../assets";
 import SliderCard from "./SliderCard";
 import { useEffect, useState } from "react";
 import { ALL_RESTAURANT_LINK } from "../utils/constants";
+import restList from "../utils/restaurantData";
 
 const Slider = () => {
   const [resData, setResData] = useState([]);
@@ -17,13 +18,20 @@ const Slider = () => {
     //console.log(json);
     //Optional chaining to prevent errors in case not found
 
-    const allRes = json?.data?.cards[2]?.data?.data?.cards;
+    let allRes = json?.data?.cards[2]?.data?.data?.cards;
+    if (allRes === undefined) {
+      allRes = restList;
+    }
     //console.log(allRes);
-    const filteredRes = allRes.filter((restaurant) => {
-      return restaurant?.data?.avgRating > 4;
-    });
 
-    setResData(filteredRes);
+    if (allRes) {
+      const filteredRes = allRes.filter((restaurant) => {
+        return restaurant?.data?.avgRating > 4;
+      });
+
+      setResData(filteredRes);
+    }
+
     //console.log(resData);
   }
 

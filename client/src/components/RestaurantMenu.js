@@ -150,7 +150,7 @@ const RestaurantMenu = () => {
             <div className="bg-white overflow-hidden flex flex-wrap items-start justify-start">
               {menu.map((item) => (
                 <FoodItemCard
-                  key={item?.id}
+                  key={item?.card?.info?.id}
                   item={item?.card?.info}
                   resId={id}
                 />
